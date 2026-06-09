@@ -18,7 +18,7 @@ jobs:
         run: |
           sudo apt-get update
           # Menambahkan libelf-dev yang diperlukan oleh ps3toolchain
-          sudo apt-get install -y build-essential autoconf automake bison flex texinfo libgmp-dev libmpfr-dev libmpc-dev libssl-dev libcurl4-openssl-dev zlib1g-dev libreadline-dev libelf-dev
+          sudo apt-get install -y build-essential autoconf automake bison flex texinfo libgmp-dev libmpfr-dev libmpc-dev libssl-dev libcurl4-openssl-dev zlib1g-dev libreadline-dev libelf-dev libtool
 
       - name: Build PS3 Toolchain
         run: |
