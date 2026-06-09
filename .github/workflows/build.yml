@@ -1,26 +1,27 @@
 name: Build webMAN Custom Rebug
 
 on:
-  workflow_dispatch: # Memungkinkan Anda menjalankan build secara manual kapan saja
+  workflow_dispatch:
   push:
     paths:
-      - 'flags.h'    # Otomatis melakukan build jika Anda mengedit flags.h lagi
+      - 'flags.h'
 
 jobs:
   compile:
     runs-on: ubuntu-latest
-    container: ps3dev/ps3dev:latest # Menggunakan environment PS3 SDK resmi
+    # MENGGUNAKAN CONTAINER DARI GHCR (GITHUB CONTAINER REGISTRY)
+    container: ghcr.io/ps3dev/ps3dev:latest 
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Proses Kompilasi (Make)
+      - name: Compile
         run: |
           make clean
           make all
 
-      - name: Upload Hasil Build (PKG & SPRX)
+      - name: Upload Hasil Build
         uses: actions/upload-artifact@v4
         with:
           name: webMAN-Cobra81-Rebug-Optimized
