@@ -9,14 +9,28 @@ on:
 jobs:
   compile:
     runs-on: ubuntu-latest
-    # MENGGUNAKAN CONTAINER DARI GHCR (GITHUB CONTAINER REGISTRY)
-    container: ghcr.io/ps3dev/ps3dev:latest 
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Compile
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make git wget
+
+      - name: Setup PS3DEV Toolchain
+        run: |
+          # Mengunduh toolchain yang sudah di-compile dari rilis terbaru ps3dev
+          wget https://github.com/ps3dev/ps3toolchain/releases/latest/download/ps3dev-linux-x86_64.tar.gz
+          tar -xf ps3dev-linux-x86_64.tar.gz -C /usr/local
+          
+          # Menambahkan ke PATH agar sistem mengenali compiler PS3
+          echo "/usr/local/ps3dev/bin" >> $GITHUB_PATH
+          echo "/usr/local/ps3dev/ppu/bin" >> $GITHUB_PATH
+          echo "PS3DEV=/usr/local/ps3dev" >> $GITHUB_ENV
+
+      - name: Build webMAN-MOD
         run: |
           make clean
           make all
